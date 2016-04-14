@@ -1,20 +1,20 @@
 package main
 
 import (
-        "log"
+	"log"
 )
 
 func swap(a, b int) {
-        log.Println("swap!")
-        a, b = b, a
+	log.Println("swap!")
+	a, b = b, a
 }
 
 func main() {
-        a := 1
-        b := 2
+	a := 1
+	b := 2
 
-        log.Println("a:", a, " b:", b)
+	log.Println("a:", a, " b:", b)
 
-        swap(a, b)
-        log.Println("a:", a, " b:", b)
+	swap(a, b)
+	log.Println("a:", a, " b:", b)
 }

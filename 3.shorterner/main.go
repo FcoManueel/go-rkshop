@@ -9,34 +9,16 @@ import (
 	"strings"
 )
 
-var URLsRepository = []URLPair{
-	URLPair{
-		ID:      "g",
-		LongUrl: "http://www.google.com",
-	},
-	URLPair{
-		ID:      "m",
-		LongUrl: "http://www.github.com/FcoManueel",
-	},
-}
+func main() {
+	log.Println("[go-short] starting...")
 
-type URLPair struct {
-	ID      string `json:"id"`
-	LongUrl string `json:"longUrl"`
-}
+	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+		io.WriteString(w, "root!")
+	})
+	http.HandleFunc("/r/", Redirect)
+	err := http.ListenAndServe(":8080", nil)
 
-func getID(url string) string {
-	i := strings.LastIndex(url, "/")
-	return url[i+1:]
-}
-
-func expand(shortURL string) string {
-	for _, pair := range URLsRepository {
-		if pair.ID == getID(shortURL) {
-			return pair.LongUrl
-		}
-	}
-	return ""
+	log.Fatal(err)
 }
 
 func Redirect(w http.ResponseWriter, req *http.Request) {
@@ -48,14 +30,16 @@ func Redirect(w http.ResponseWriter, req *http.Request) {
 	http.Redirect(w, req, longURL, http.StatusSeeOther)
 }
 
-func main() {
-	log.Println("[go-short] starting...")
+func expand(shortURL string) string {
+	for _, pair := range URLsRepository {
+		if pair.ID == getID(shortURL) {
+			return pair.LongUrl
+		}
+	}
+	return ""
+}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		io.WriteString(w, "root!")
-	})
-	http.HandleFunc("/r/", Redirect)
-	err := http.ListenAndServe(":8080", nil)
-
-	log.Fatal(err)
+func getID(url string) string {
+	i := strings.LastIndex(url, "/")
+	return url[i+1:]
 }
