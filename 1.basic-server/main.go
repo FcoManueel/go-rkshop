@@ -18,3 +18,13 @@ func main() {
 
 	log.Fatal(err)
 }
+
+//func helloFile(w http.ResponseWriter, req *http.Request) {
+//	fileContent, err := ioutil.ReadFile("file.txt")
+//	if err != nil {
+//		panic(err.Error())
+//	}
+//	w.Write(fileContent)
+//}
+
+//http.HandleFunc("/file", helloFile)
